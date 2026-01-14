@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeMap</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, #1e293b, #0f172a);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 90%;
+            width: 400px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1, h2 {
+            margin: 10px 0;
+        }
+
+        button {
+            background: #00d2ff;
+            border: none;
+            color: #0f172a;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #00aaff;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 10px 0;
+            height: 10px;
+        }
+
+        .progress-bar {
+            background: #00d2ff;
+            height: 100%;
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .overlay-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        #start-screen, #quiz-container, #results-screen {
+            display: none;
+        }
+
+        #start-screen {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="start-screen">
+        <h2>Msheireb Downtown Doha</h2>
+        <h1>SafeMap</h1>
+        <button onclick="startAssessment()">Start Assessment</button>
+    </div>
+
+    <div class="container" id="quiz-container">
+        <div id="progress-text"></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="timer" id="timer">30</div>
+        <h2 id="question"></h2>
+        <div class="options" id="options"></div>
+    </div>
+
+    <div class="overlay" id="milestone-overlay" style="display: none;">
+        <div class="overlay-content">
+            <h2>Milestone 1 Complete. Take a breath.</h2>
+            <button onclick="proceedToMilestone2()">Proceed to Milestone 2</button>
+        </div>
+    </div>
+
+    <div class="container" id="results-screen">
+        <h1>Results</h1>
+        <h2 id="score"></h2>
+        <button onclick="window.location.href='https://example.com/developer-profile'">Developer Profile</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Who is the CEO of Msheireb Properties?",
+                options: ["Ali Al Kuwari", "John Doe", "Jane Smith", "Bob Johnson"],
+                correct: 0
+            },
+            {
+                question: "Where are fire extinguishers located in Msheireb Downtown Doha?",
+                options: ["Only in hotels", "In all buildings and public spaces", "Only in museums", "None"],
+                correct: 1
+            },
+            {
+                question: "Where are AED devices located in Msheireb Downtown Doha?",
+                options: ["Barahat Msheireb, Msheireb Museums, Tram Stations, Hotels", "Only in Souq Waqif", "Airport only", "None"],
+                correct: 0
+            },
+            {
+                question: "What is the Emergency Assembly Point in Msheireb Downtown Doha?",
+                options: ["Souq Waqif", "Barahat Msheireb", "West Bay", "Hamad International Airport"],
+                correct: 1
+            },
+            {
+                question: "What is the first action a visitor should take if they discover a fire in Msheireb Downtown Doha?",
+                options: ["Evacuate immediately", "Alert others and activate alarm", "Attempt to extinguish if safe", "Call personal contacts"],
+                correct: 1
+            },
+            {
+                question: "In Msheireb Downtown Doha, what color code indicates a medical emergency?",
+                options: ["Code Red", "Code Blue", "Code Yellow", "Code Green"],
+                correct: 1
+            },
+            {
+                question: "What should a tourist do if they witness suspicious behavior in Msheireb Downtown Doha?",
+                options: ["Ignore it", "Report to security", "Confront the person", "Leave the area silently"],
+                correct: 1
+            },
+            {
+                question: "What is a key sustainability feature of Msheireb Downtown Doha?",
+                options: ["All buildings LEED-certified", "No green spaces", "High energy consumption", "Limited access"],
+                correct: 0
+            },
+            {
+                question: "What is the protocol for extreme heat safety in Msheireb Downtown Doha?",
+                options: ["Stay outdoors all day", "Stay hydrated, seek shade, use cooling areas", "Ignore weather warnings", "Use elevators only"],
+                correct: 1
+            },
+            {
+                question: "How should a visitor respond to a security alert in Msheireb Downtown Doha?",
+                options: ["Run, hide, fight if necessary", "Confront immediately", "Call friends", "Ignore it"],
+                correct: 0
+            },
+            // Milestone after Q10
+            {
+                question: "What is the primary mode of transport within Msheireb Downtown Doha for tourists?",
+                options: ["Cars", "Msheireb Tram", "Bicycles only", "Walking only"],
+                correct: 1
+            },
+            {
+                question: "Who is responsible for maintaining first aid kits in Msheireb Downtown Doha?",
+                options: ["Visitors", "Security staff", "Tourists", "None"],
+                correct: 1
+            },
+            {
+                question: "What signal indicates an emergency in Msheireb Downtown Doha?",
+                options: ["Siren", "Announcement over PA system", "Flashing lights", "Email"],
+                correct: 1
+            },
+            {
+                question: "How often are safety awareness events held in Msheireb Downtown Doha?",
+                options: ["Monthly", "Quarterly", "Annually", "Never"],
+                correct: 1
+            },
+            {
+                question: "What should a visitor wear during a visit to Msheireb Downtown Doha in summer?",
+                options: ["Heavy clothing", "Light, breathable clothing and sunscreen", "Swimsuit", "No protection"],
+                correct: 1
+            },
+            {
+                question: "Where is the nearest safe area during a sandstorm in Msheireb Downtown Doha?",
+                options: ["Open plazas", "Indoor buildings and hotels", "Tram stations only", "Outside the district"],
+                correct: 1
+            },
+            {
+                question: "What app is recommended for tourists visiting Msheireb Downtown Doha?",
+                options: ["Social media", "Visit Qatar App", "Weather app", "None"],
+                correct: 1
+            },
+            {
+                question: "In case of power outage in Msheireb Downtown Doha, what is the backup lighting source?",
+                options: ["Candles", "Emergency lights", "Phone flashlights", "None"],
+                correct: 1
+            },
+            {
+                question: "What is the contact number for security in Msheireb Downtown Doha?",
+                options: ["911", "Internal security hotline 555", "Local police only", "Personal phone"],
+                correct: 1
+            },
+            {
+                question: "How often should a visitor refresh their safety awareness for tourist areas like Msheireb Downtown Doha?",
+                options: ["Annually", "Every two years", "As often as possible", "Only once"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timerInterval;
+        let timeLeft = 30;
+
+        function startAssessment() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            document.getElementById('question').innerText = q.question;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('div');
+                btn.classList.add('option');
+                btn.innerText = option;
+                btn.onclick = () => selectAnswer(index);
+                optionsDiv.appendChild(btn);
+            });
+
+            updateProgress();
+            startTimer();
+        }
+
+        function selectAnswer(index) {
+            clearInterval(timerInterval);
+            if (index === questions[currentQuestion].correct) {
+                score++;
+            }
+            nextQuestion();
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            document.getElementById('timer').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion === 10) {
+                showMilestone();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('progress-text').innerText = `${currentQuestion + 1} / ${questions.length}`;
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function showMilestone() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('milestone-overlay').style.display = 'flex';
+        }
+
+        function proceedToMilestone2() {
+            document.getElementById('milestone-overlay').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            document.getElementById('score').innerText = `${score} / ${questions.length}`;
+        }
+    </script>
+</body>
+</html>
