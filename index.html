@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeMap | Msheireb Tourism</title>
+    <title>SafeMap | Msheireb Downtown Doha</title>
     <style>
         :root {
             --accent: #d4af37; 
@@ -12,7 +12,7 @@
             --border: rgba(212, 175, 55, 0.4);
         }
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top right, #1e293b, #0f172a);
             color: #f8fafc;
             margin: 0;
@@ -66,22 +66,22 @@
 
 <div id="app-container">
     <div id="start-screen" class="overlay" style="display: flex;">
-        <div class="brand-sub">Downtown Doha</div>
+        <div class="brand-sub">Sustainable Living</div>
         <h1>SafeMap</h1>
-        <p style="margin-top: 15px;">Experience Qatar's heritage. Master the landmarks of Msheireb while staying safe.</p>
-        <button class="btn-action" onclick="begin()">Yalla! Start</button>
+        <p style="margin-top: 15px;">Discover Msheireb Downtown Doha. Navigate the landmarks and lifestyle of the world's first sustainable downtown.</p>
+        <button class="btn-action" onclick="begin()">Enter District</button>
     </div>
 
     <div id="milestone-screen" class="overlay">
         <h1>Milestone 1 Complete</h1>
-        <p style="margin-top: 15px;">Landmarks Mastered. Take a breath.</p>
-        <button class="btn-action" onclick="resume()">Proceed to Milestone 2</button>
+        <p style="margin-top: 15px;">You have a strong grasp of the district layout. Keep exploring.</p>
+        <button class="btn-action" onclick="resume()">Continue Journey</button>
     </div>
 
     <div id="result-screen" class="overlay">
-        <h1>Exploration Over</h1>
+        <h1>Discovery Complete</h1>
         <p id="final-score" style="font-size: 1.5rem; color: var(--accent); margin: 15px 0; font-weight: 800;"></p>
-        <p>You are now a certified Msheireb Tourism Ambassador!</p>
+        <p>You have mastered the environmental details of Msheireb Downtown.</p>
         
         <div class="share-container">
             <button class="btn-share li-btn" onclick="share('linkedin')">LinkedIn</button>
@@ -89,7 +89,7 @@
             <button class="btn-share x-btn" onclick="share('x')">X (Twitter)</button>
         </div>
 
-        <a href="#" class="btn-action" style="background: transparent; color: var(--accent); border: 2px solid var(--accent); margin-top: 25px;" onclick="location.reload()">Try Again</a>
+        <a href="#" class="btn-action" style="background: transparent; color: var(--accent); border: 2px solid var(--accent); margin-top: 25px;" onclick="location.reload()">Refresh Map</a>
     </div>
 
     <div class="timer" id="timer">30</div>
@@ -105,26 +105,26 @@
 
 <script>
     const questions = [
-        { q: "Msheireb's 'Al Kahraba Street' is famous for being the first street in Qatar to have what?", a: ["Asphalt roads", "Electricity", "Traffic Lights", "Running Water"], c: 1 },
-        { q: "Which 5-star hotel in Msheireb is located right in the middle of Barahat Square?", a: ["Park Hyatt", "Mandarin Oriental", "Alwadi Hotel", "The Ritz-Carlton"], c: 1 },
-        { q: "What does the word 'Msheireb' actually mean in Arabic?", a: ["New Building", "Place to drink water", "Golden Sand", "Old Market"], c: 1 },
-        { q: "Which Msheireb Museum focuses on the history of the oil industry in Qatar?", a: ["Radwani House", "Bin Jelmood House", "Company House", "National House"], c: 2 },
-        { q: "Where can you find a high-end Monoprix supermarket within Msheireb Downtown?", a: ["Msheireb Galleria", "Heritage Quarter", "Near the Metro", "Hotel Lobby"], c: 0 },
-        { q: "The Msheireb Metro Station is the only place in Doha where which lines meet?", a: ["Red and Green", "Red, Green and Gold", "Gold and Blue", "Green only"], c: 1 },
-        { q: "Which rooftop restaurant in Park Hyatt Doha offers iconic skyline views?", a: ["Sora", "The Kitchen", "Izu", "Mosaic"], c: 0 },
-        { q: "What makes the Barahat Msheireb square comfortable for tourists even in summer?", a: ["Massive AC fans", "Retractable roof & floor cooling", "Underground mist", "Iced walkways"], c: 1 },
-        { q: "Which museum showcases traditional Qatari family life through a restored home?", a: ["Bin Jelmood House", "Radwani House", "Company House", "Museum of Islamic Art"], c: 1 },
-        { q: "What is the cost for tourists to use the Msheireb Tram?", a: ["10 QAR", "5 QAR", "Completely Free", "Requires a Gold Card"], c: 2 },
-        { q: "Which street connects Msheireb Downtown directly to the Souq Waqif?", a: ["Salwa Road", "Sikkat Wadi Msheireb", "Al Matar St", "Corniche Rd"], c: 1 },
-        { q: "What is the primary role of the M7 building in Msheireb?", a: ["Banking Hub", "Police Headquarters", "Design, Fashion & Culture Hub", "Hospital"], c: 2 },
-        { q: "In an emergency, what is the official number tourists should call in Qatar?", a: ["911", "999", "112", "101"], c: 1 },
-        { q: "Which museum specifically addresses the history of slavery and human rights?", a: ["Radwani House", "Bin Jelmood House", "Company House", "The White House"], c: 1 },
-        { q: "What is the 'smart' feature on Msheireb's street poles for emergencies?", a: ["Direct call button to Security", "Drinkable water tap", "Paper map printer", "Battery charger"], c: 0 },
-        { q: "Which high-end hotel features an indoor pool and is part of the MGallery collection?", a: ["Mandarin Oriental", "Alwadi Hotel", "Park Hyatt", "W Hotel"], c: 1 },
-        { q: "What Guinness World Record does the Msheireb underground project hold?", a: ["Largest underground carpark", "Smallest Metro station", "Longest Tram", "Deepest Museum"], c: 0 },
-        { q: "The 'Sahat Al Nakheel' area is famous for what feature?", a: ["Fountain show", "Palm tree plaza", "Electric Tram stop", "Solar panel roof"], c: 1 },
-        { q: "What should you do if you lose your belongings in a public Msheireb area?", a: ["Ask a random person", "Visit the Command & Control Center (CCC)", "Post on Facebook", "Go to the Airport"], c: 1 },
-        { q: "How often should you check the official Msheireb app for tourism updates?", a: ["Every year", "Only when you get lost", "As often as possible", "Never"], c: 2 }
+        { q: "What is the historical significance of 'Al Kahraba Street' in Msheireb?", a: ["First to have running water", "First to have electricity in Qatar", "First to have a shopping mall", "First paved road"], c: 1 },
+        { q: "Which hotel in the district is located directly on Barahat Msheireb square?", a: ["Park Hyatt", "Mandarin Oriental", "Alwadi Hotel", "Sheraton"], c: 1 },
+        { q: "The word 'Msheireb' translates to which of the following?", a: ["Golden Sand", "Place to drink water", "Quiet Quarter", "New City"], c: 1 },
+        { q: "Which Msheireb Museum is dedicated to the history of the oil industry workers?", a: ["Radwani House", "Bin Jelmood House", "Company House", "Mohammed Bin Jassim House"], c: 2 },
+        { q: "Where is the high-end Monoprix supermarket located for residents and visitors?", a: ["Msheireb Galleria", "Heritage Quarter", "Near the Metro", "Underground Service Level"], c: 0 },
+        { q: "Which Metro station serves as the central hub for the Red, Green, and Gold lines?", a: ["Lusail Station", "Msheireb Station", "Education City", "Souq Waqif Station"], c: 1 },
+        { q: "The 'Sora' rooftop venue at Park Hyatt is known for its views of what?", a: ["The Corniche", "The Doha Skyline", "The Desert", "The Airport"], c: 1 },
+        { q: "How is the temperature regulated in the Barahat Msheireb outdoor square?", a: ["Giant portable fans", "Retractable roof & floor cooling", "Mist sprayers only", "Underground ice storage"], c: 1 },
+        { q: "Which museum illustrates traditional Qatari family life across different eras?", a: ["Bin Jelmood House", "Radwani House", "Company House", "M7 Hub"], c: 1 },
+        { q: "What is the fare for the Msheireb Tram that loops the district?", a: ["10 QAR", "Requires Metro Card", "It is free for all", "5 QAR per ride"], c: 2 },
+        { q: "Which walkway allows direct pedestrian access from Msheireb to Souq Waqif?", a: ["Salwa Road", "Sikkat Wadi Msheireb", "Grand Hamad St", "Corniche Rd"], c: 1 },
+        { q: "The M7 building is a major destination for which industry in Qatar?", a: ["Banking", "Oil and Gas", "Design, Culture, and Innovation", "Healthcare"], c: 2 },
+        { q: "In the event of an emergency, what is the official contact number in Qatar?", a: ["911", "999", "112", "101"], c: 1 },
+        { q: "Which museum explores the global history of slavery and human rights?", a: ["Radwani House", "Bin Jelmood House", "Company House", "M7"], c: 1 },
+        { q: "What safety feature is integrated into the Msheireb 'Smart Poles'?", a: ["Fresh water tap", "Emergency call button to security", "Mobile phone printer", "Public megaphone"], c: 1 },
+        { q: "Which luxury boutique hotel is part of the MGallery collection in Msheireb?", a: ["Mandarin Oriental", "Alwadi Hotel", "Park Hyatt", "W Hotel"], c: 1 },
+        { q: "Msheireb holds a world record for which of these sustainable infrastructures?", a: ["Largest underground car park", "Tallest solar tower", "Largest urban tram", "Deepest museum"], c: 0 },
+        { q: "The 'Sahat Al Nakheel' area is primarily known for what feature?", a: ["The fountain show", "The palm tree plaza", "The main metro exit", "The public library"], c: 1 },
+        { q: "During any emergency, which facility manages the district's response?", a: ["The Tram Depot", "Command and Control Center (CCC)", "The Galleria Mall", "The Mosque"], c: 1 },
+        { q: "How often should you refresh your knowledge of the district's features and safety protocols?", a: ["Once every year", "Only when required", "As often as possible", "Never"], c: 2 }
     ];
 
     let current = 0, score = 0, clock, time = 30, milestoneReached = false;
@@ -191,11 +191,11 @@
     function finish() {
         updateProgress();
         document.getElementById('result-screen').style.display = 'flex';
-        document.getElementById('final-score').innerText = `Tourism Score: ${score} / 20`;
+        document.getElementById('final-score').innerText = `Discovery Score: ${score} / 20`;
     }
 
     function share(platform) {
-        const text = `I'm a Msheireb Tourism Ambassador! I scored ${score}/20 on the SafeMap challenge. Explore Doha's heart here:`;
+        const text = `I've mastered the environment of Msheireb Downtown Doha! I scored ${score}/20 on the SafeMap challenge. Explore the district here:`;
         const url = window.location.href;
         let shareUrl = '';
         if(platform === 'linkedin') shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
