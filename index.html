@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeMap | Msheireb Downtown Doha</title>
+    <title>SafeMap | MDD Connectivity</title>
     <style>
         :root {
             --accent: #d4af37; 
-            --bg: #1e293b;
+            --bg: #0f172a;
             --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(212, 175, 55, 0.3);
+            --border: rgba(212, 175, 55, 0.4);
         }
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at center, #334155, #0f172a);
+            background: radial-gradient(circle at center, #1e293b, #0f172a);
             color: #f8fafc;
             margin: 0;
             display: flex;
@@ -26,40 +26,39 @@
             width: 92%;
             max-width: 420px;
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--border);
             padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             text-align: center;
             position: relative;
         }
-        .brand-sub { font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; }
-        .timer { font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .brand-sub { font-size: 0.7rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        .timer { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
         
         .progress-wrapper { margin-bottom: 25px; }
-        .progress-text { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; font-weight: 700; }
-        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; font-weight: 700; }
+        .progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
         #progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s ease; }
         
-        .question-box { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #fff;}
+        .question-box { font-size: 1.1rem; font-weight: 600; margin-bottom: 25px; min-height: 90px; display: flex; align-items: center; justify-content: center; line-height: 1.4;}
         .options-grid { display: grid; gap: 10px; }
-        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-size: 0.95rem; }
+        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-size: 0.95rem; }
         .opt:hover { border-color: var(--accent); background: rgba(212, 175, 55, 0.1); }
         .correct { background: #166534 !important; border-color: #22c55e !important; color: white !important;}
         .wrong { background: #991b1b !important; border-color: #ef4444 !important; color: white !important;}
         
-        .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 24px; padding: 30px; }
-        .btn-action { background: var(--accent); color: #000; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; width: 80%;}
+        .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 28px; padding: 30px; }
+        .btn-action { background: var(--accent); color: #000; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 20px; text-decoration: none; text-transform: uppercase;}
         
-        /* Share Buttons Styling */
-        .share-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; width: 100%; }
-        .btn-share { padding: 10px 15px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: white; cursor: pointer; border: none; display: flex; align-items: center; gap: 5px; flex: 1 1 40%; justify-content: center; }
+        .share-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; width: 100%; }
+        .btn-share { padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: white; cursor: pointer; border: none; flex: 1 1 40%; }
         .li-btn { background: #0077b5; }
         .wa-btn { background: #25d366; }
-        .x-btn { background: #000000; border: 1px solid #333; }
+        .x-btn { background: #000; border: 1px solid #333; }
 
-        h1 { color: #fff; margin: 0; font-size: 1.8rem; }
+        h1 { color: #fff; margin: 0; font-size: 2.2rem; }
         p { color: #94a3b8; line-height: 1.6; font-size: 0.95rem; }
     </style>
 </head>
@@ -69,20 +68,20 @@
     <div id="start-screen" class="overlay" style="display: flex;">
         <div class="brand-sub">Msheireb Downtown Doha</div>
         <h1>SafeMap</h1>
-        <p style="margin-top: 15px;">Experience the future of Doha safely. Discover landmarks while mastering site awareness.</p>
-        <button class="btn-action" onclick="begin()">Begin Exploration</button>
+        <p style="margin-top: 15px;">Discover the world's most connected sustainable district. Master the Tram and Metro networks.</p>
+        <button class="btn-action" onclick="begin()">Begin Journey</button>
     </div>
 
     <div id="milestone-screen" class="overlay">
         <h1>Milestone 1 Complete</h1>
-        <p style="margin-top: 15px;">The Heritage Quarter mastered. Take a breath.</p>
+        <p style="margin-top: 15px;">You've mastered the Heritage Quarter connectivity. Take a breath.</p>
         <button class="btn-action" onclick="resume()">Proceed to Milestone 2</button>
     </div>
 
     <div id="result-screen" class="overlay">
-        <h1>Assessment End</h1>
-        <p id="final-score" style="font-size: 1.4rem; color: var(--accent); margin: 10px 0; font-weight: 800;"></p>
-        <p>Your Msheireb Safety Explorer rating is ready.</p>
+        <h1>Journey Complete</h1>
+        <p id="final-score" style="font-size: 1.5rem; color: var(--accent); margin: 15px 0; font-weight: 800;"></p>
+        <p>You are now a certified MDD Connectivity Expert!</p>
         
         <div class="share-container">
             <button class="btn-share li-btn" onclick="share('linkedin')">LinkedIn</button>
@@ -90,7 +89,7 @@
             <button class="btn-share x-btn" onclick="share('x')">X (Twitter)</button>
         </div>
 
-        <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action" style="background: transparent; color: var(--accent); border: 1px solid var(--accent);">Developer Profile</a>
+        <a href="https://github.com/your-username/msheireb" class="btn-action" style="background: transparent; color: var(--accent); border: 2px solid var(--accent); margin-top: 25px;">Update Repository</a>
     </div>
 
     <div class="timer" id="timer">30</div>
@@ -106,26 +105,26 @@
 
 <script>
     const questions = [
-        { q: "Msheireb Downtown Doha (MDD) is the world's first what?", a: ["Floating city", "Sustainable downtown regeneration project", "Underground city", "Space station"], c: 1 },
-        { q: "What is the primary mode of sustainable transport in MDD?", a: ["Petrol Buses", "Msheireb Tram", "Electric Scooters only", "Helicopter"], c: 1 },
-        { q: "Where are the four Msheireb Museums located?", a: ["West Bay", "The Heritage Quarter", "Lusail", "Education City"], c: 1 },
-        { q: "Which open plaza in MDD is the largest open-air covered square in the Middle East?", a: ["Souq Waqif", "Barahat Msheireb", "City Center Plaza", "Heritage Square"], c: 1 },
-        { q: "Where are the emergency fire extinguishers located in MDD public buildings?", a: ["Only in the basement", "All levels and retail corridors", "Only in the Command Center", "Not required"], c: 1 },
-        { q: "What color is the universal emergency exit signage across MDD?", a: ["Red", "Green and White", "Yellow", "Blue"], c: 1 },
-        { q: "How is MDD designed to keep tourists cool during summer?", a: ["Giant outdoor fans", "Building orientation for natural shade and cooling technology", "Ice dispensers", "Portable umbrellas"], c: 1 },
-        { q: "Where can visitors find public AED units in the Msheireb district?", a: ["Only in the Mosque", "Major Security hubs and Lift Landings", "Inside the Tram depot only", "None"], c: 1 },
-        { q: "Which department manages all smart-city monitoring in MDD?", a: ["Command and Control Center (CCC)", "Housekeeping", "Marketing", "Finance"], c: 0 },
-        { q: "Which street connects MDD directly to Souq Waqif?", a: ["Salwa Road", "Sikkat Wadi Msheireb", "Al Matar St", "B-Ring Road"], c: 1 },
-        { q: "In case of a fire alarm, what is the first action to take?", a: ["Finish shopping", "Evacuate via stairs immediately", "Call a friend", "Use the lift"], c: 1 },
-        { q: "Which museum tells the story of the families who pioneered Msheireb?", a: ["Radwani House", "Bin Jelmood House", "Company House", "Mohammed Bin Jassim House"], c: 3 },
-        { q: "What is the benefit of the zero-emission Msheireb Tram?", a: ["Fastest speed", "Environmentally friendly transport", "Free WiFi only", "Luxury seating"], c: 1 },
-        { q: "The Msheireb Prayer Ground is located in which part of the district?", a: ["West", "East", "North", "South"], c: 2 },
-        { q: "Who is responsible for safety engineering in MDD during an emergency?", a: ["The Concierge", "Facilities Management & Engineering", "Security only", "HR"], c: 1 },
-        { q: "What type of energy-saving tech is integrated into MDD homes?", a: ["Smart Home energy and fire monitoring", "Solar cooking", "Manual shutters", "None"], c: 0 },
-        { q: "Which location serves as the primary external assembly point near Barahat?", a: ["Underground Parking", "Open Plaza Area", "Metro Station", "Hotel Kitchen"], c: 1 },
-        { q: "What makes Msheireb Downtown a 'Smart City'?", a: ["More TVs", "Integrated tech for energy, water, and safety management", "Free parking", "Robots in streets"], c: 1 },
-        { q: "During an evacuation, which exit door is key for the primary assembly area?", a: ["Exit 1", "Exit 4", "Main Gate", "Service Gate"], c: 1 },
-        { q: "How often should safety professionals refresh their MDD situational training?", a: ["Once a decade", "Only after a fire", "As often as possible", "Never"], c: 2 }
+        { q: "The Msheireb Metro Station is the interchange point for which Doha Metro lines?", a: ["Red Line only", "Red, Green, and Gold Lines", "Blue Line only", "Red and Gold Lines only"], c: 1 },
+        { q: "What is the total length of the Msheireb Tram loop that connects the district?", a: ["500 meters", "2 kilometers", "10 kilometers", "5 kilometers"], c: 1 },
+        { q: "How many stations does the Msheireb Tram serve across the downtown area?", a: ["3 Stations", "9 Stations", "15 Stations", "5 Stations"], c: 1 },
+        { q: "The Msheireb Tram uses which type of advanced sustainable technology?", a: ["Overhead electric wires", "On-board hydrogen power", "Wireless regenerative battery power", "Solar sails"], c: 2 },
+        { q: "Which landmark plaza is served by 'Station 1' of the Msheireb Tram?", a: ["Galleria Mall", "Barahat Msheireb", "Wadi Msheireb", "Heritage Quarter"], c: 1 },
+        { q: "Which Metro line from Msheireb Station takes you directly to Hamad International Airport?", a: ["Green Line", "Gold Line", "Red Line", "Lusail Tram"], c: 2 },
+        { q: "What is the frequency (wait time) of the Msheireb Tram for visitors?", a: ["Every 30 minutes", "Every 6 minutes", "Every hour", "Once a day"], c: 1 },
+        { q: "To reach the historic Souq Waqif via Metro from Msheireb, which line should you take?", a: ["Gold Line", "Red Line", "Green Line", "The Tram"], c: 0 },
+        { q: "What is the cost for tourists to ride the Msheireb Tram?", a: ["10 QAR", "5 QAR", "It is completely free", "Requires a Metro card"], c: 2 },
+        { q: "Which station connects the Tram network to the Msheireb Metro interchange?", a: ["Station 4 (Galleria)", "Station 1 (Sahat Al Nakheel)", "Station 9 (Central Station)", "Station 7 (Al Kahraba)"], c: 1 },
+        { q: "Which Metro line from Msheireb Station leads to Education City and the National Library?", a: ["Red Line", "Green Line", "Gold Line", "Blue Line"], c: 1 },
+        { q: "The Msheireb Tram fleet consists of how many high-tech vehicles?", a: ["1 Vehicle", "3 Vehicles", "10 Vehicles", "50 Vehicles"], c: 1 },
+        { q: "What is the primary safety rule when crossing the Tram tracks in Msheireb?", a: ["Run across quickly", "Use designated crossings and look both ways", "The Tram always stops for pedestrians", "No rules apply"], c: 1 },
+        { q: "Which Tram station is closest to the Mandarin Oriental and Alwadi Hotels?", a: ["Station 3 (Galleria)", "Station 1 (Sahat Al Nakheel)", "Station 9 (Heritage)", "Station 5 (Wadi)"], c: 1 },
+        { q: "In terms of design, what makes Msheireb Metro Station unique?", a: ["It is the smallest station", "It is the largest interchange station in the Doha Metro network", "It is built entirely of wood", "It is above ground"], c: 1 },
+        { q: "Can you take a bicycle or scooter inside the Msheireb Tram?", a: ["Yes, at any time", "No, only foldable bikes and under certain conditions", "Only during weekends", "Never"], c: 1 },
+        { q: "What should you do if the Metro or Tram undergoes an emergency stop?", a: ["Force the doors open", "Remain calm and follow the intercom instructions", "Climb out the window", "Start running"], c: 1 },
+        { q: "Which station allows you to access the Msheireb Galleria luxury shopping mall directly?", a: ["Station 1", "Station 4", "Station 9", "Station 7"], c: 1 },
+        { q: "What color is the Gold Line on the Doha Metro map departing from Msheireb?", a: ["Yellow", "Gold", "Orange", "Brown"], c: 1 },
+        { q: "How often should you check the Msheireb App or SafeMap for transport schedule updates?", a: ["Once a year", "Every few months", "As often as possible", "Never"], c: 2 }
     ];
 
     let current = 0, score = 0, clock, time = 30, milestoneReached = false;
@@ -192,25 +191,16 @@
     function finish() {
         updateProgress();
         document.getElementById('result-screen').style.display = 'flex';
-        document.getElementById('final-score').innerText = `Safety Score: ${score} / 20`;
+        document.getElementById('final-score').innerText = `Score: ${score} / 20`;
     }
 
     function share(platform) {
-        const text = `I just scored ${score}/20 on the Msheireb SafeMap exploration tool! Mastering safety and tourism in the heart of Doha. Check it out:`;
+        const text = `I'm a Msheireb Connectivity Expert! I scored ${score}/20 on the SafeMap transport challenge. Master the Tram and Metro here:`;
         const url = window.location.href;
         let shareUrl = '';
-
-        switch(platform) {
-            case 'linkedin':
-                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-                break;
-            case 'whatsapp':
-                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
-                break;
-            case 'x':
-                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-                break;
-        }
+        if(platform === 'linkedin') shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        else if(platform === 'whatsapp') shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
+        else if(platform === 'x') shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
         window.open(shareUrl, '_blank');
     }
 </script>
