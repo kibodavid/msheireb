@@ -1,288 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SafeMap – Msheireb Downtown Doha</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeMap | Msheireb Downtown Doha</title>
+    <style>
+        :root {
+            --accent: #d4af37; 
+            --bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(212, 175, 55, 0.3);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #334155, #0f172a);
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #app-container {
+            width: 92%;
+            max-width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            text-align: center;
+            position: relative;
+        }
+        .brand-sub { font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; }
+        .timer { font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        
+        .progress-wrapper { margin-bottom: 25px; }
+        .progress-text { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; font-weight: 700; }
+        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s ease; }
+        
+        .question-box { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #fff;}
+        .options-grid { display: grid; gap: 10px; }
+        .opt { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-size: 0.95rem; }
+        .opt:hover { border-color: var(--accent); background: rgba(212, 175, 55, 0.1); }
+        .correct { background: #166534 !important; border-color: #22c55e !important; color: white !important;}
+        .wrong { background: #991b1b !important; border-color: #ef4444 !important; color: white !important;}
+        
+        .overlay { display: none; position: absolute; inset: 0; background: #0f172a; z-index: 100; flex-direction: column; justify-content: center; align-items: center; border-radius: 24px; padding: 30px; }
+        .btn-action { background: var(--accent); color: #000; border: none; padding: 16px 40px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; width: 80%;}
+        
+        /* Share Buttons Styling */
+        .share-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; width: 100%; }
+        .btn-share { padding: 10px 15px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: white; cursor: pointer; border: none; display: flex; align-items: center; gap: 5px; flex: 1 1 40%; justify-content: center; }
+        .li-btn { background: #0077b5; }
+        .wa-btn { background: #25d366; }
+        .x-btn { background: #000000; border: 1px solid #333; }
 
-  <style>
-    :root {
-      --accent: #00d2ff;
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --glass-bg: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.18);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, var(--bg-secondary), var(--bg-primary));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--text-main);
-    }
-
-    .app {
-      width: 100%;
-      max-width: 420px;
-      padding: 24px;
-    }
-
-    .card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--glass-border);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 6px;
-      text-align: center;
-    }
-
-    h2 {
-      font-size: 1rem;
-      font-weight: 400;
-      opacity: 0.85;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(135deg, var(--accent), #38bdf8);
-      color: #020617;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-
-    .progress {
-      margin-bottom: 16px;
-    }
-
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .bar {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .fill {
-      height: 100%;
-      width: 0%;
-      background: var(--accent);
-      transition: width 0.3s ease;
-    }
-
-    .question {
-      font-size: 1rem;
-      line-height: 1.45;
-      margin-bottom: 14px;
-    }
-
-    .option {
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .option:hover {
-      border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 23, 0.88);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
-  </style>
+        h1 { color: #fff; margin: 0; font-size: 1.8rem; }
+        p { color: #94a3b8; line-height: 1.6; font-size: 0.95rem; }
+    </style>
 </head>
-
 <body>
 
-<div class="app">
-
-  <!-- START -->
-  <div id="start" class="card">
-    <h2>Msheireb Downtown Doha</h2>
-    <h1>SafeMap</h1>
-    <button id="startBtn">Start Awareness Journey</button>
-  </div>
-
-  <!-- QUIZ -->
-  <div id="quiz" class="card hidden">
-    <div class="progress">
-      <div class="progress-info">
-        <span id="count">1 / 20</span>
-        <span id="timer">30s</span>
-      </div>
-      <div class="bar"><div id="fill" class="fill"></div></div>
+<div id="app-container">
+    <div id="start-screen" class="overlay" style="display: flex;">
+        <div class="brand-sub">Msheireb Downtown Doha</div>
+        <h1>SafeMap</h1>
+        <p style="margin-top: 15px;">Experience the future of Doha safely. Discover landmarks while mastering site awareness.</p>
+        <button class="btn-action" onclick="begin()">Begin Exploration</button>
     </div>
 
-    <div id="question" class="question"></div>
-    <div id="options"></div>
-  </div>
+    <div id="milestone-screen" class="overlay">
+        <h1>Milestone 1 Complete</h1>
+        <p style="margin-top: 15px;">The Heritage Quarter mastered. Take a breath.</p>
+        <button class="btn-action" onclick="resume()">Proceed to Milestone 2</button>
+    </div>
 
-  <!-- RESULT -->
-  <div id="result" class="card hidden">
-    <h1>Journey Complete</h1>
-    <h2 id="score"></h2>
-    <button onclick="window.location.href='https://example.com'">
-      Visit Developer Profile
-    </button>
-  </div>
+    <div id="result-screen" class="overlay">
+        <h1>Assessment End</h1>
+        <p id="final-score" style="font-size: 1.4rem; color: var(--accent); margin: 10px 0; font-weight: 800;"></p>
+        <p>Your Msheireb Safety Explorer rating is ready.</p>
+        
+        <div class="share-container">
+            <button class="btn-share li-btn" onclick="share('linkedin')">LinkedIn</button>
+            <button class="btn-share wa-btn" onclick="share('whatsapp')">WhatsApp</button>
+            <button class="btn-share x-btn" onclick="share('x')">X (Twitter)</button>
+        </div>
 
-</div>
+        <a href="https://www.linkedin.com/in/davidkiboi" class="btn-action" style="background: transparent; color: var(--accent); border: 1px solid var(--accent);">Developer Profile</a>
+    </div>
 
-<!-- MILESTONE -->
-<div id="milestone" class="overlay hidden">
-  <div class="card">
-    <h1>Milestone 1 Complete</h1>
-    <h2>Pause. Look around. Breathe.</h2>
-    <button id="continue">Proceed to Milestone 2</button>
-  </div>
+    <div class="timer" id="timer">30</div>
+    
+    <div class="progress-wrapper">
+        <div class="progress-text" id="progress-count">0 / 20</div>
+        <div class="progress-track"><div id="progress-bar"></div></div>
+    </div>
+
+    <div class="question-box" id="q-text">Loading...</div>
+    <div class="options-grid" id="o-grid"></div>
 </div>
 
 <script>
-  const questions = [
-    { q: "What is the main purpose of Msheireb Downtown Doha?", o: ["Residential only", "Tourism only", "A sustainable mixed-use district", "Industrial zone"], a: 2 },
-    { q: "Which transport option directly serves Msheireb Downtown Doha?", o: ["Tram only", "Metro station", "Water taxi", "Airport shuttle"], a: 1 },
-    { q: "What should a professional do first during an emergency in Msheireb Downtown Doha?", o: ["Run immediately", "Assess surroundings calmly", "Ignore alarms", "Call friends"], a: 1 },
-    { q: "Where are emergency assembly points generally located in Msheireb Downtown Doha?", o: ["Underground", "Open public plazas", "Inside buildings", "Parking ramps"], a: 1 },
-    { q: "Msheireb Downtown Doha is designed with which architectural principle?", o: ["High-rise glass towers", "Traditional Qatari heritage", "Industrial design", "Minimal zoning"], a: 1 },
-    { q: "Why is situational awareness important in busy districts like Msheireb?", o: ["For navigation only", "To respond quickly and stay safe", "For social reasons", "For shopping"], a: 1 },
-    { q: "Who should be aware of evacuation routes in Msheireb Downtown Doha?", o: ["Security only", "Professionals only", "All visitors and team members", "Management only"], a: 2 },
-    { q: "Which feature improves walkability and safety in Msheireb?", o: ["Wide roads", "Shaded walkways", "High fences", "Vehicle-only zones"], a: 1 },
-    { q: "What role do public squares play in Msheireb?", o: ["Decoration only", "Emergency gathering points", "Private access", "Parking"], a: 1 },
-    { q: "What should you do if you hear a public safety announcement?", o: ["Ignore it", "Record it", "Follow instructions calmly", "Leave the area immediately"], a: 2 },
+    const questions = [
+        { q: "Msheireb Downtown Doha (MDD) is the world's first what?", a: ["Floating city", "Sustainable downtown regeneration project", "Underground city", "Space station"], c: 1 },
+        { q: "What is the primary mode of sustainable transport in MDD?", a: ["Petrol Buses", "Msheireb Tram", "Electric Scooters only", "Helicopter"], c: 1 },
+        { q: "Where are the four Msheireb Museums located?", a: ["West Bay", "The Heritage Quarter", "Lusail", "Education City"], c: 1 },
+        { q: "Which open plaza in MDD is the largest open-air covered square in the Middle East?", a: ["Souq Waqif", "Barahat Msheireb", "City Center Plaza", "Heritage Square"], c: 1 },
+        { q: "Where are the emergency fire extinguishers located in MDD public buildings?", a: ["Only in the basement", "All levels and retail corridors", "Only in the Command Center", "Not required"], c: 1 },
+        { q: "What color is the universal emergency exit signage across MDD?", a: ["Red", "Green and White", "Yellow", "Blue"], c: 1 },
+        { q: "How is MDD designed to keep tourists cool during summer?", a: ["Giant outdoor fans", "Building orientation for natural shade and cooling technology", "Ice dispensers", "Portable umbrellas"], c: 1 },
+        { q: "Where can visitors find public AED units in the Msheireb district?", a: ["Only in the Mosque", "Major Security hubs and Lift Landings", "Inside the Tram depot only", "None"], c: 1 },
+        { q: "Which department manages all smart-city monitoring in MDD?", a: ["Command and Control Center (CCC)", "Housekeeping", "Marketing", "Finance"], c: 0 },
+        { q: "Which street connects MDD directly to Souq Waqif?", a: ["Salwa Road", "Sikkat Wadi Msheireb", "Al Matar St", "B-Ring Road"], c: 1 },
+        { q: "In case of a fire alarm, what is the first action to take?", a: ["Finish shopping", "Evacuate via stairs immediately", "Call a friend", "Use the lift"], c: 1 },
+        { q: "Which museum tells the story of the families who pioneered Msheireb?", a: ["Radwani House", "Bin Jelmood House", "Company House", "Mohammed Bin Jassim House"], c: 3 },
+        { q: "What is the benefit of the zero-emission Msheireb Tram?", a: ["Fastest speed", "Environmentally friendly transport", "Free WiFi only", "Luxury seating"], c: 1 },
+        { q: "The Msheireb Prayer Ground is located in which part of the district?", a: ["West", "East", "North", "South"], c: 2 },
+        { q: "Who is responsible for safety engineering in MDD during an emergency?", a: ["The Concierge", "Facilities Management & Engineering", "Security only", "HR"], c: 1 },
+        { q: "What type of energy-saving tech is integrated into MDD homes?", a: ["Smart Home energy and fire monitoring", "Solar cooking", "Manual shutters", "None"], c: 0 },
+        { q: "Which location serves as the primary external assembly point near Barahat?", a: ["Underground Parking", "Open Plaza Area", "Metro Station", "Hotel Kitchen"], c: 1 },
+        { q: "What makes Msheireb Downtown a 'Smart City'?", a: ["More TVs", "Integrated tech for energy, water, and safety management", "Free parking", "Robots in streets"], c: 1 },
+        { q: "During an evacuation, which exit door is key for the primary assembly area?", a: ["Exit 1", "Exit 4", "Main Gate", "Service Gate"], c: 1 },
+        { q: "How often should safety professionals refresh their MDD situational training?", a: ["Once a decade", "Only after a fire", "As often as possible", "Never"], c: 2 }
+    ];
 
-    { q: "Msheireb Downtown Doha promotes which sustainability goal?", o: ["Energy waste", "Human-centered design", "Urban congestion", "Private transport"], a: 1 },
-    { q: "Which behavior supports safety awareness in tourist areas?", o: ["Using phone constantly", "Knowing landmarks", "Avoiding maps", "Rushing"], a: 1 },
-    { q: "Emergency signage in Msheireb is designed to be:", o: ["Hidden", "Decorative", "Clear and multilingual", "Temporary"], a: 2 },
-    { q: "Who can assist during an emergency in Msheireb?", o: ["Only police", "Trained professionals and responders", "Tour guides only", "Visitors"], a: 1 },
-    { q: "Why are shaded streets important in Msheireb?", o: ["Style only", "Heat comfort and safety", "Advertising", "Lighting"], a: 1 },
-    { q: "What should a team member do after reaching an assembly area?", o: ["Leave immediately", "Wait for instructions", "Re-enter buildings", "Ignore checks"], a: 1 },
-    { q: "Msheireb encourages movement primarily by:", o: ["Private cars", "Walking and public transport", "Heavy trucks", "Scooters only"], a: 1 },
-    { q: "Situational awareness includes:", o: ["Knowing exits and landmarks", "Watching people only", "Using headphones", "Avoiding signs"], a: 0 },
-    { q: "Why is wayfinding important in Msheireb?", o: ["Decoration", "Tourism and safety navigation", "Advertising", "Control"], a: 1 },
-    { q: "How often should professionals refresh their safety awareness?", o: ["Once", "Only during drills", "Rarely", "As often as possible"], a: 3 }
-  ];
+    let current = 0, score = 0, clock, time = 30, milestoneReached = false;
 
-  let index = 0, score = 0, time = 30, timer, paused = false;
+    function begin() { document.getElementById('start-screen').style.display = 'none'; loadQ(); }
 
-  const start = document.getElementById("start");
-  const quiz = document.getElementById("quiz");
-  const result = document.getElementById("result");
-  const milestone = document.getElementById("milestone");
-
-  const qText = document.getElementById("question");
-  const options = document.getElementById("options");
-  const count = document.getElementById("count");
-  const fill = document.getElementById("fill");
-  const timerEl = document.getElementById("timer");
-
-  document.getElementById("startBtn").onclick = () => {
-    start.classList.add("hidden");
-    quiz.classList.remove("hidden");
-    load();
-  };
-
-  document.getElementById("continue").onclick = () => {
-    milestone.classList.add("hidden");
-    paused = false;
-    load();
-  };
-
-  function load() {
-    clearInterval(timer);
-    time = 30;
-    timerEl.textContent = time + "s";
-
-    const q = questions[index];
-    qText.textContent = q.q;
-    options.innerHTML = "";
-
-    count.textContent = `${index + 1} / 20`;
-    fill.style.width = (index / 20) * 100 + "%";
-
-    q.o.forEach((opt, i) => {
-      const div = document.createElement("div");
-      div.className = "option";
-      div.textContent = opt;
-      div.onclick = () => answer(i);
-      options.appendChild(div);
-    });
-
-    timer = setInterval(() => {
-      time--;
-      timerEl.textContent = time + "s";
-      if (time === 0) next();
-    }, 1000);
-  }
-
-  function answer(i) {
-    clearInterval(timer);
-    if (i === questions[index].a) score++;
-    next();
-  }
-
-  function next() {
-    index++;
-
-    if (index === 10 && !paused) {
-      paused = true;
-      milestone.classList.remove("hidden");
-      return;
+    function loadQ() {
+        if (current === 10 && !milestoneReached) { showMilestone(); return; }
+        startClock();
+        const data = questions[current]; 
+        document.getElementById('q-text').innerText = data.q;
+        const grid = document.getElementById('o-grid');
+        grid.innerHTML = '';
+        data.a.forEach((opt, i) => {
+            const b = document.createElement('button');
+            b.className = 'opt';
+            b.innerText = opt;
+            b.onclick = () => verify(i, b);
+            grid.appendChild(b);
+        });
+        updateProgress();
     }
 
-    if (index >= questions.length) {
-      quiz.classList.add("hidden");
-      result.classList.remove("hidden");
-      document.getElementById("score").textContent = `${score} / 20`;
-      return;
+    function updateProgress() {
+        document.getElementById('progress-count').innerText = `${current} / 20`;
+        document.getElementById('progress-bar').style.width = (current / 20) * 100 + '%';
     }
 
-    load();
-  }
+    function startClock() {
+        clearInterval(clock);
+        time = 30;
+        document.getElementById('timer').innerText = time;
+        clock = setInterval(() => {
+            time--;
+            document.getElementById('timer').innerText = time;
+            if (time <= 0) verify(-1);
+        }, 1000);
+    }
+
+    function verify(choice, btn) {
+        clearInterval(clock);
+        const correct = questions[current].c;
+        const all = document.querySelectorAll('.opt');
+        all.forEach(b => b.disabled = true);
+        if (choice === correct) { if(btn) btn.classList.add('correct'); score++; } 
+        else { if (btn) btn.classList.add('wrong'); all[correct].classList.add('correct'); }
+        setTimeout(() => { 
+            current++; 
+            if (current < 20) { loadQ(); } 
+            else { finish(); }
+        }, 1200);
+    }
+
+    function showMilestone() {
+        milestoneReached = true;
+        document.getElementById('milestone-screen').style.display = 'flex';
+    }
+
+    function resume() { 
+        document.getElementById('milestone-screen').style.display = 'none'; 
+        loadQ(); 
+    }
+
+    function finish() {
+        updateProgress();
+        document.getElementById('result-screen').style.display = 'flex';
+        document.getElementById('final-score').innerText = `Safety Score: ${score} / 20`;
+    }
+
+    function share(platform) {
+        const text = `I just scored ${score}/20 on the Msheireb SafeMap exploration tool! Mastering safety and tourism in the heart of Doha. Check it out:`;
+        const url = window.location.href;
+        let shareUrl = '';
+
+        switch(platform) {
+            case 'linkedin':
+                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                break;
+            case 'whatsapp':
+                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
+                break;
+            case 'x':
+                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                break;
+        }
+        window.open(shareUrl, '_blank');
+    }
 </script>
-
 </body>
 </html>
